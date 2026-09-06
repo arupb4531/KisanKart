@@ -1,0 +1,303 @@
+[
+  {
+    "id": "prod-001",
+    "name": "Farm Fresh Organic Desi Tomatoes",
+    "category": "vegetables",
+    "farmerEmail": "farmer@kisankart.com",
+    "pricePerUnit": 48,
+    "unit": "kg",
+    "stockQuantity": 120,
+    "harvestHoursAgo": 8,
+    "isOrganic": true,
+    "description": "Vine-ripened, naturally sweet and tangy desi heirloom tomatoes. Harvested fresh at dawn without synthetic pesticides or chemical ripening agents. These tomatoes are grown using traditional multi-cropping techniques which ensure rich soil nutrition and exceptional flavor profile perfect for Indian curries and fresh salads. Rich in lycopene and vitamin C.",
+    "images": [
+      "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=800&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=800&auto=format&fit=crop"
+    ]
+  },
+  {
+    "id": "prod-002",
+    "name": "Premium Ratnagiri Alphonso Mangoes (Devgad)",
+    "category": "fruits",
+    "farmerEmail": "farmer@kisankart.com",
+    "pricePerUnit": 780,
+    "unit": "dozen",
+    "stockQuantity": 45,
+    "harvestHoursAgo": 24,
+    "isOrganic": true,
+    "description": "Directly sourced naturally carbide-free tree-ripened Alphonso mangoes from Devgad orchards with rich saffron pulp and unforgettable tropical aroma. Hand-plucked at the perfect stage of maturity, they are packed in eco-friendly grass beds to ripen naturally. Known as the king of fruits, these mangoes have a buttery texture and intense sweetness.",
+    "images": [
+      "https://images.unsplash.com/photo-1553279768-865429fa0078?w=800&auto=format&fit=crop"
+    ]
+  },
+  {
+    "id": "prod-003",
+    "name": "Crisp Hydroponic Baby Spinach (Palak)",
+    "category": "vegetables",
+    "farmerEmail": "farmer@kisankart.com",
+    "pricePerUnit": 35,
+    "unit": "bundle",
+    "stockQuantity": 60,
+    "harvestHoursAgo": 6,
+    "isOrganic": true,
+    "description": "Tender baby spinach leaves grown in purified mineral spring water and organic bio-compost. Rich in iron, crisp, and 100% soil-residue clean. This hydroponic technique uses 90% less water than traditional farming while providing a denser nutrient profile. Excellent for raw salads, smoothies, or lightly sautéed dishes.",
+    "images": [
+      "https://images.unsplash.com/photo-1576045057995-568f588f82fb?w=800&auto=format&fit=crop"
+    ]
+  },
+  {
+    "id": "prod-004",
+    "name": "Organic Green Bell Peppers (Capsicum)",
+    "category": "vegetables",
+    "farmerEmail": "farmer@kisankart.com",
+    "pricePerUnit": 55,
+    "unit": "kg",
+    "stockQuantity": 85,
+    "harvestHoursAgo": 8,
+    "isOrganic": true,
+    "description": "Thick-walled, crunchy green bell peppers harvested from shade-net green houses using organic bio-mulch and natural pest deterrents like neem oil. They are firm, vibrantly colored, and have a fresh peppery crunch that holds up well in stir-fries, roasting, or stuffing.",
+    "images": [
+      "https://images.unsplash.com/photo-1563565375-f3fdfdbefa83?w=800&auto=format&fit=crop"
+    ]
+  },
+  {
+    "id": "prod-005",
+    "name": "Cold-Pressed Yellow Mustard Oil (Kachi Ghani)",
+    "category": "other",
+    "farmerEmail": "farmer@kisankart.com",
+    "pricePerUnit": 220,
+    "unit": "litre",
+    "stockQuantity": 70,
+    "harvestHoursAgo": 48,
+    "isOrganic": true,
+    "description": "Extracted in wooden Kolhu expellers without chemical heating, retaining its pungent, authentic flavor. Rich in Omega-3, antioxidants, and natural preservatives. Sourced from native yellow mustard seeds, it brings a robust flavor to traditional Indian cooking and is also excellent for therapeutic massage.",
+    "images": [
+      "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=800&auto=format&fit=crop"
+    ]
+  },
+  {
+    "id": "prod-006",
+    "name": "Raw A2 Gir Cow Fresh Milk (Glass Bottle)",
+    "category": "dairy",
+    "farmerEmail": "sunita@kisankart.com",
+    "pricePerUnit": 85,
+    "unit": "litre",
+    "stockQuantity": 80,
+    "harvestHoursAgo": 4,
+    "isOrganic": true,
+    "description": "Unprocessed, pure raw whole A2 milk from free-grazing indigenous Gir cows fed on natural Ayurvedic herbs and grass. Bottled in eco-friendly glass containers within 2 hours of milking with zero preservatives or homogenization, preserving the natural creamline and gut-friendly enzymes.",
+    "images": [
+      "https://images.unsplash.com/photo-1550583724-b2692b85b150?w=800&auto=format&fit=crop"
+    ]
+  },
+  {
+    "id": "prod-007",
+    "name": "Traditional Vedic Bilona A2 Desi Ghee",
+    "category": "dairy",
+    "farmerEmail": "sunita@kisankart.com",
+    "pricePerUnit": 1450,
+    "unit": "litre",
+    "stockQuantity": 30,
+    "harvestHoursAgo": 48,
+    "isOrganic": true,
+    "description": "Crafted using the ancient two-way wooden churn (Bilona) method from cultured curd of grass-fed A2 Gir cows. Requires 30 liters of milk to produce 1 liter of ghee. It features a rich granular texture, a nutty aroma, and is highly revered in Ayurveda for digestion, immunity, and overall well-being.",
+    "images": [
+      "https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?w=800&auto=format&fit=crop"
+    ]
+  },
+  {
+    "id": "prod-008",
+    "name": "Nashik Flame Seedless Sweet Grapes",
+    "category": "fruits",
+    "farmerEmail": "sunita@kisankart.com",
+    "pricePerUnit": 90,
+    "unit": "kg",
+    "stockQuantity": 150,
+    "harvestHoursAgo": 18,
+    "isOrganic": false,
+    "description": "Crunchy, high-Brix sweet purple table grapes handpicked directly from our Nashik hillside vineyard trellis. Grown with minimal chemical intervention, these grapes are plump, juicy, and perfect for snacking, juicing, or adding to summer salads.",
+    "images": [
+      "https://images.unsplash.com/photo-1537640538966-79f369143f8f?w=800&auto=format&fit=crop"
+    ]
+  },
+  {
+    "id": "prod-009",
+    "name": "Organic Ruby Red Pomegranates (Bhagwa)",
+    "category": "fruits",
+    "farmerEmail": "sunita@kisankart.com",
+    "pricePerUnit": 160,
+    "unit": "kg",
+    "stockQuantity": 90,
+    "harvestHoursAgo": 24,
+    "isOrganic": true,
+    "description": "Soft-seeded, deep ruby red Bhagwa variety pomegranates loaded with natural antioxidants, sweetness, and high juice content. Grown in arid regions using drip irrigation, these fruits have a thick protective rind that ensures freshness and a long shelf life.",
+    "images": [
+      "https://images.unsplash.com/photo-1615485290382-441e4d049cb5?w=800&auto=format&fit=crop"
+    ]
+  },
+  {
+    "id": "prod-010",
+    "name": "Single-Origin Sharbati Whole Wheat Atta",
+    "category": "grains",
+    "farmerEmail": "farmer@kisankart.com",
+    "pricePerUnit": 68,
+    "unit": "kg",
+    "stockQuantity": 250,
+    "harvestHoursAgo": 48,
+    "isOrganic": true,
+    "description": "Golden MP Sharbati wheat grains sourced from Sehore, slow stone-ground at low temperatures (chakki) to preserve the natural germ oil, fiber, and sweet aroma. Makes exceptionally soft and nutritious rotis that stay tender for hours.",
+    "images": [
+      "https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=800&auto=format&fit=crop"
+    ]
+  },
+  {
+    "id": "prod-011",
+    "name": "Hand-Pounded Fragrant Basmati Rice (Dehradun)",
+    "category": "grains",
+    "farmerEmail": "farmer@kisankart.com",
+    "pricePerUnit": 125,
+    "unit": "kg",
+    "stockQuantity": 180,
+    "harvestHoursAgo": 72,
+    "isOrganic": true,
+    "description": "Aged for two years, non-polished long-grain traditional Dehraduni Basmati rice retaining the nutritious bran layer and delicate natural floral aroma. Hand-pounding ensures the grains remain whole and retain maximum micronutrients. Expands significantly upon cooking.",
+    "images": [
+      "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=800&auto=format&fit=crop"
+    ]
+  },
+  {
+    "id": "prod-012",
+    "name": "Unpolished Organic Desi Toor Dal (Pigeon Pea)",
+    "category": "pulses",
+    "farmerEmail": "farmer@kisankart.com",
+    "pricePerUnit": 140,
+    "unit": "kg",
+    "stockQuantity": 110,
+    "harvestHoursAgo": 48,
+    "isOrganic": true,
+    "description": "Chemical-free, unpolished Toor Dal with high natural protein content and dietary fiber. Sun-dried and split traditionally, ensuring fast cooking times without the need for baking soda. Delivers a rich, earthy flavor to your daily dal tadka.",
+    "images": [
+      "https://images.unsplash.com/photo-1599940824399-b87987ceb72a?w=800&auto=format&fit=crop"
+    ]
+  },
+  {
+    "id": "prod-013",
+    "name": "Fresh Green Coriander & Mint Herb Pack",
+    "category": "vegetables",
+    "farmerEmail": "farmer@kisankart.com",
+    "pricePerUnit": 25,
+    "unit": "bundle",
+    "stockQuantity": 90,
+    "harvestHoursAgo": 5,
+    "isOrganic": true,
+    "description": "Fragrant, freshly clipped desi cilantro and spearmint bundles harvested right before early morning dispatch. Grown without pesticides, these herbs bring intense aroma and flavor to your chutneys, garnishes, and marinades.",
+    "images": [
+      "https://images.unsplash.com/photo-1588879462719-7e3f84f009f9?w=800&auto=format&fit=crop"
+    ]
+  },
+  {
+    "id": "prod-014",
+    "name": "Farm Fresh Strawberry Crates (Mahabaleshwar)",
+    "category": "fruits",
+    "farmerEmail": "sunita@kisankart.com",
+    "pricePerUnit": 180,
+    "unit": "kg",
+    "stockQuantity": 65,
+    "harvestHoursAgo": 10,
+    "isOrganic": true,
+    "description": "Sweet, vibrant red Sweet Charlie variety strawberries plucked at peak ripeness from high-altitude mist farms in Mahabaleshwar. Delivered in aerated crates to prevent bruising. Perfect for jams, desserts, or eating fresh.",
+    "images": [
+      "https://images.unsplash.com/photo-1464965911861-746a04b4bca6?w=800&auto=format&fit=crop"
+    ]
+  },
+  {
+    "id": "prod-015",
+    "name": "Cold-Pressed Virgin Coconut Oil",
+    "category": "other",
+    "farmerEmail": "farmer@kisankart.com",
+    "pricePerUnit": 290,
+    "unit": "litre",
+    "stockQuantity": 50,
+    "harvestHoursAgo": 48,
+    "isOrganic": true,
+    "description": "Extracted from fresh raw coconut kernel milk without chemical refining, bleaching, or deodorizing. Rich in lauric acid and medium-chain triglycerides (MCTs). Offers a mild, sweet tropical aroma ideal for cooking, baking, and skin/hair care.",
+    "images": [
+      "https://images.unsplash.com/photo-1526947425960-945c6e72858f?w=800&auto=format&fit=crop"
+    ]
+  },
+  {
+    "id": "prod-016",
+    "name": "Organic Lakadong Turmeric Powder",
+    "category": "other",
+    "farmerEmail": "vikram@kisankart.com",
+    "pricePerUnit": 350,
+    "unit": "kg",
+    "stockQuantity": 40,
+    "harvestHoursAgo": 72,
+    "isOrganic": true,
+    "description": "Sourced from the pristine hills of Meghalaya, this premium Lakadong turmeric boasts a naturally high curcumin content (7-9%). Sun-dried and cold-milled to retain essential oils, it provides deep color, robust flavor, and potent anti-inflammatory properties.",
+    "images": [
+      "https://images.unsplash.com/photo-1615486171431-7b0658cb0208?w=800&auto=format&fit=crop"
+    ]
+  },
+  {
+    "id": "prod-017",
+    "name": "Chemical-Free Artisanal Jaggery (Gur)",
+    "category": "other",
+    "farmerEmail": "vikram@kisankart.com",
+    "pricePerUnit": 85,
+    "unit": "kg",
+    "stockQuantity": 100,
+    "harvestHoursAgo": 48,
+    "isOrganic": true,
+    "description": "Made from heirloom sugarcane varieties, this artisanal jaggery is boiled in traditional iron vats and clarified using natural okra mucilage instead of chemical sulfur. Rich in iron and minerals, it offers a deep caramel flavor perfect for tea, sweets, and daily cooking.",
+    "images": [
+      "https://images.unsplash.com/photo-1621245089332-90209427b2f6?w=800&auto=format&fit=crop"
+    ]
+  },
+  {
+    "id": "prod-018",
+    "name": "Sprouted Finger Millet (Ragi) Flour",
+    "category": "grains",
+    "farmerEmail": "vikram@kisankart.com",
+    "pricePerUnit": 95,
+    "unit": "kg",
+    "stockQuantity": 80,
+    "harvestHoursAgo": 48,
+    "isOrganic": true,
+    "description": "Organic Ragi grains that are washed, sprouted, sun-dried, and stone-milled to maximize nutrient bio-availability. Sprouting enhances calcium and iron absorption while making it easier to digest. Ideal for nutritious porridges, dosas, and baking.",
+    "images": [
+      "https://images.unsplash.com/photo-1596541604085-f55bb245763e?w=800&auto=format&fit=crop"
+    ]
+  },
+  {
+    "id": "prod-019",
+    "name": "Fresh Organic Green Chillies",
+    "category": "vegetables",
+    "farmerEmail": "farmer@kisankart.com",
+    "pricePerUnit": 60,
+    "unit": "kg",
+    "stockQuantity": 45,
+    "harvestHoursAgo": 12,
+    "isOrganic": true,
+    "description": "Vibrant and pungent green chillies grown without synthetic pesticides. Hand-picked to ensure optimal spiciness and freshness. An essential ingredient to add a sharp, spicy kick to your curries, chutneys, and marinades.",
+    "images": [
+      "https://images.unsplash.com/photo-1588078238127-b08e2f8016fa?w=800&auto=format&fit=crop"
+    ]
+  },
+  {
+    "id": "prod-020",
+    "name": "Himalayan Pink Rock Salt",
+    "category": "other",
+    "farmerEmail": "vikram@kisankart.com",
+    "pricePerUnit": 110,
+    "unit": "kg",
+    "stockQuantity": 200,
+    "harvestHoursAgo": 168,
+    "isOrganic": true,
+    "description": "Unrefined, naturally occurring pink rock salt directly sourced from ancient salt mines. Contains 84 trace minerals including calcium, magnesium, and potassium. Coarsely ground for cooking and seasoning, providing a pure and subtle salty flavor.",
+    "images": [
+      "https://images.unsplash.com/photo-1614285437812-70bfa3f0af15?w=800&auto=format&fit=crop"
+    ]
+  }
+]
