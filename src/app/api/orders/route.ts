@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { connectToDatabase } from '@/lib/db';
-import { Order } from '@/models/Order';
-import { Product } from '@/models/Product';
+import { prisma } from '@/lib/db';
 import { getAuthUser } from '@/lib/auth';
 
 export async function POST(req: NextRequest) {
@@ -11,7 +9,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Please login to place an order.' }, { status: 401 });
     }
 
-    await connectToDatabase();
     const body = await req.json();
     const { items, deliverySlot, shippingAddress, paymentMethod } = body;
 
@@ -29,11 +26,11 @@ export async function POST(req: NextRequest) {
 
     // Step 1: Validate stock for each item and prepare farmer-grouped items
     const productIds = items.map((i: any) => i.productId);
-    const dbProducts = await Product.find({ _id: { $in: productIds } });
+    const dbProducts = await prisma.product.findMany({ where: { id: { in: productIds } } });
 
     const productMap = new Map();
     dbProducts.forEach((p) => {
-      productMap.set(p._id.toString(), p);
+      productMap.set(p.id, p);
     });
 
     // Check inventory availability
@@ -54,15 +51,12 @@ export async function POST(req: NextRequest) {
 
     // Step 2: Atomic stock decrement for each product
     for (const item of items) {
-      const updatedProduct = await Product.findOneAndUpdate(
-        { _id: item.productId, stockQuantity: { $gte: item.quantity } },
-        {
-          $inc: { stockQuantity: -item.quantity },
-        },
-        { new: true }
-      );
+      const updatedProduct = await prisma.product.updateMany({
+        where: { id: item.productId, stockQuantity: { gte: item.quantity } },
+        data: { stockQuantity: { decrement: item.quantity } }
+      });
 
-      if (!updatedProduct) {
+      if (updatedProduct.count === 0) {
         return NextResponse.json(
           { error: `Stock changed for "${item.name}" while checking out. Please try again.` },
           { status: 409 }
@@ -70,9 +64,9 @@ export async function POST(req: NextRequest) {
       }
 
       // Auto update availability if stock hits 0
-      if (updatedProduct.stockQuantity === 0) {
-        updatedProduct.isAvailable = false;
-        await updatedProduct.save();
+      const currentProd = await prisma.product.findUnique({ where: { id: item.productId } });
+      if (currentProd?.stockQuantity === 0) {
+        await prisma.product.update({ where: { id: item.productId }, data: { isAvailable: false } });
       }
     }
 
@@ -87,7 +81,7 @@ export async function POST(req: NextRequest) {
       }
 
       farmerGrouped.get(farmerIdStr)!.push({
-        productId: dbProduct._id,
+        productId: dbProduct.id,
         name: dbProduct.name,
         unitPrice: dbProduct.pricePerUnit,
         quantity: item.quantity,
@@ -105,20 +99,25 @@ export async function POST(req: NextRequest) {
       const subtotal = farmerItems.reduce((sum, it) => sum + it.subtotal, 0);
       const orderNumber = `KM-${timestamp}-${orderIndex++}`;
 
-      const order = await Order.create({
-        orderNumber,
-        consumerId: auth.userId,
-        farmerId: farmerIdStr,
-        items: farmerItems,
-        totalAmount: subtotal,
-        deliverySlot: {
-          date: new Date(deliverySlot.date),
-          timeSlot: deliverySlot.timeSlot,
+      const order = await prisma.order.create({
+        data: {
+          orderNumber,
+          consumerId: auth.userId,
+          farmerId: farmerIdStr,
+          totalAmount: subtotal,
+          deliverySlot: {
+            date: new Date(deliverySlot.date),
+            timeSlot: deliverySlot.timeSlot,
+          },
+          shippingAddress,
+          status: 'pending',
+          paymentMethod: paymentMethod || 'cod',
+          paymentStatus: paymentMethod === 'online' ? 'paid' : 'pending',
+          items: {
+            create: farmerItems
+          }
         },
-        shippingAddress,
-        status: 'pending',
-        paymentMethod: paymentMethod || 'cod',
-        paymentStatus: paymentMethod === 'online' ? 'paid' : 'pending',
+        include: { items: true }
       });
 
       createdOrders.push(order);

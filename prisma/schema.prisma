@@ -1,0 +1,121 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(uuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  phone        String
+  role         String   @default("consumer") // 'farmer', 'consumer', 'admin'
+  isVerified   Boolean  @default(false)
+  address      Json?    // { street, city, state, pincode, coordinates: { lat, lng } }
+  avatar       String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  farmerProfile   FarmerProfile?
+  products        Product[]       @relation("FarmerProducts")
+  ordersAsConsumer Order[]        @relation("ConsumerOrders")
+  ordersAsFarmer   Order[]        @relation("FarmerOrders")
+  reviewsGiven    Review[]        @relation("ConsumerReviews")
+  reviewsReceived Review[]        @relation("FarmerReviews")
+}
+
+model FarmerProfile {
+  id               String   @id @default(uuid())
+  userId           String   @unique
+  farmName         String
+  farmLocation     Json     // { address, city, state, pincode, coordinates: [lng, lat] }
+  farmingMethod    String   @default("organic") // 'organic', 'conventional', 'natural'
+  bio              String?
+  primaryCrops     String[]
+  experienceYears  Int      @default(1)
+  verificationDocs String[]
+  certificates     String[]
+  averageRating    Float    @default(5.0)
+  totalRatings     Int      @default(0)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Product {
+  id            String   @id @default(uuid())
+  farmerId      String
+  name          String
+  category      String   @default("vegetables") // 'vegetables', 'fruits', 'dairy', 'grains', 'pulses', 'other'
+  description   String?
+  pricePerUnit  Float
+  unit          String   @default("kg") // 'kg', 'g', 'litre', 'dozen', 'piece', 'bundle'
+  stockQuantity Int      @default(0)
+  harvestDate   DateTime @default(now())
+  isOrganic     Boolean  @default(false)
+  images        String[]
+  isAvailable   Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  farmer      User        @relation("FarmerProducts", fields: [farmerId], references: [id], onDelete: Cascade)
+  orderItems  OrderItem[]
+  reviews     Review[]
+}
+
+model Order {
+  id              String   @id @default(uuid())
+  orderNumber     String   @unique
+  consumerId      String
+  farmerId        String
+  totalAmount     Float
+  deliverySlot    Json     // { date, timeSlot }
+  shippingAddress Json     // { street, city, state, pincode, coordinates: { lat, lng } }
+  status          String   @default("pending") // 'pending', 'confirmed', 'dispatched', 'delivered', 'cancelled'
+  paymentMethod   String   @default("cod") // 'cod', 'online'
+  paymentStatus   String   @default("pending") // 'pending', 'paid', 'failed'
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  consumer User        @relation("ConsumerOrders", fields: [consumerId], references: [id])
+  farmer   User        @relation("FarmerOrders", fields: [farmerId], references: [id])
+  items    OrderItem[]
+  reviews  Review[]
+}
+
+model OrderItem {
+  id        String @id @default(uuid())
+  orderId   String
+  productId String
+  name      String
+  unitPrice Float
+  quantity  Int
+  unit      String
+  subtotal  Float
+  image     String?
+
+  order   Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Restrict)
+}
+
+model Review {
+  id         String   @id @default(uuid())
+  orderId    String
+  consumerId String
+  farmerId   String
+  productId  String?
+  rating     Int
+  comment    String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  order    Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  consumer User     @relation("ConsumerReviews", fields: [consumerId], references: [id], onDelete: Cascade)
+  farmer   User     @relation("FarmerReviews", fields: [farmerId], references: [id], onDelete: Cascade)
+  product  Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+}

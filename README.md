@@ -40,7 +40,7 @@
    👉 [http://localhost:3000](http://localhost:3000)
 
 > [!TIP]
-> **No database installation needed!** KisanKart includes an embedded in-memory MongoDB fallback. The database automatically seeds itself on the first run with all 20 products, verified farmer profiles, and demo orders.
+> **No database installation needed!** KisanKart includes a configured Prisma schema for PostgreSQL. You will need a PostgreSQL database to run this project. Run `npx prisma db push` to initialize the tables.
 
 ---
 
@@ -76,7 +76,7 @@ If you want anyone in the world to open your site directly via a link (without d
 3. Import your `KisanKart` repository.
 4. Set the environment variable:
    - `JWT_SECRET`: `kisankart_super_secure_jwt_secret_key_2026`
-   - *(Optional)* `MONGODB_URI`: Connect a free [MongoDB Atlas](https://www.mongodb.com/atlas) cluster URI (or use the built-in storage).
+   - `DATABASE_URL`: Connect a PostgreSQL database URL (e.g. Supabase, Neon, or local).
 5. Click **Deploy**. In under 60 seconds, Vercel provides a live URL (e.g., `https://kisankart.vercel.app`) that anyone can open from any device anywhere!
 
 ---
@@ -97,6 +97,6 @@ Use the **"Switch Persona"** button in the top navigation bar or log in with any
 ## 🛠️ Technology Stack
 - **Framework:** Next.js 15 (App Router, Server Components & Client Actions)
 - **Styling:** Tailwind CSS with custom glassmorphic components, fluid animations, and Google Fonts (`Plus Jakarta Sans` & `Outfit`)
-- **Database:** MongoDB & Mongoose (with embedded `mongodb-memory-server` fallback)
+- **Database:** PostgreSQL & Prisma ORM
 - **Authentication:** JWT with HTTP-only cookies & role-based route middleware
 - **Icons:** Lucide React

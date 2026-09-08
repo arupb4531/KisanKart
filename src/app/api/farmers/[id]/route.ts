@@ -1,27 +1,33 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { connectToDatabase } from '@/lib/db';
-import { User } from '@/models/User';
-import { FarmerProfile } from '@/models/FarmerProfile';
-import { Product } from '@/models/Product';
-import { Review } from '@/models/Review';
+import { prisma } from '@/lib/db';
 
 export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
-    await connectToDatabase();
 
-    const user = await User.findById(id).select('-passwordHash').lean();
+    const user = await prisma.user.findUnique({
+      where: { id },
+      select: {
+        id: true, name: true, email: true, phone: true, role: true, isVerified: true, address: true, avatar: true, createdAt: true
+      }
+    });
+
     if (!user || user.role !== 'farmer') {
       return NextResponse.json({ error: 'Farmer profile not found.' }, { status: 404 });
     }
 
-    const farmerProfile = await FarmerProfile.findOne({ userId: user._id }).lean();
-    const products = await Product.find({ farmerId: user._id, isAvailable: true }).lean();
-    const reviews = await Review.find({ farmerId: user._id })
-      .populate('consumerId', 'name avatar')
-      .sort({ createdAt: -1 })
-      .limit(20)
-      .lean();
+    const farmerProfile = await prisma.farmerProfile.findUnique({ where: { userId: user.id } });
+    const products = await prisma.product.findMany({ where: { farmerId: user.id, isAvailable: true } });
+    const reviews = await prisma.review.findMany({
+      where: { farmerId: user.id },
+      include: {
+        consumer: {
+          select: { name: true, avatar: true }
+        }
+      },
+      orderBy: { createdAt: 'desc' },
+      take: 20
+    });
 
     return NextResponse.json({
       farmer: {
@@ -29,7 +35,10 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
         farmerProfile,
       },
       products,
-      reviews,
+      reviews: reviews.map((r: any) => ({
+        ...r,
+        consumerId: r.consumer, // backwards compatibility
+      }))
     });
   } catch (error: any) {
     return NextResponse.json({ error: error?.message || 'Server error' }, { status: 500 });

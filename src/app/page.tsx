@@ -1,10 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { ProductCard } from '@/components/ProductCard';
-import { connectToDatabase } from '@/lib/db';
-import { Product } from '@/models/Product';
-import { FarmerProfile } from '@/models/FarmerProfile';
-import { User } from '@/models/User';
+import { prisma } from '@/lib/db';
 import {
   Sprout,
   ArrowRight,
@@ -25,33 +22,34 @@ import {
 
 async function getFeaturedProducts() {
   try {
-    await connectToDatabase();
-    const products = await Product.find({ isAvailable: true })
-      .populate('farmerId', 'name email phone address isVerified avatar')
-      .sort({ createdAt: -1 })
-      .limit(8)
-      .lean();
+    const products = await prisma.product.findMany({
+      where: { isAvailable: true },
+      include: {
+        farmer: {
+          select: { name: true, email: true, phone: true, address: true, isVerified: true, avatar: true, id: true }
+        }
+      },
+      orderBy: { createdAt: 'desc' },
+      take: 8
+    });
 
-    const farmerIds = products.map((p: any) => p.farmerId?._id).filter(Boolean);
-    const farmerProfiles = await FarmerProfile.find({ userId: { $in: farmerIds } }).lean();
+    const farmerIds = products.map((p) => p.farmerId).filter(Boolean);
+    const farmerProfiles = await prisma.farmerProfile.findMany({ where: { userId: { in: farmerIds } } });
 
     const profileMap = new Map();
-    farmerProfiles.forEach((fp) => profileMap.set(fp.userId.toString(), fp));
+    farmerProfiles.forEach((fp) => profileMap.set(fp.userId, fp));
 
-    const mapped = products.map((p: any) => {
-      const farmerUserId = p.farmerId?._id?.toString();
-      return {
-        ...p,
-        _id: p._id.toString(),
-        farmerId: p.farmerId
-          ? {
-              ...p.farmerId,
-              _id: p.farmerId?._id?.toString(),
-            }
-          : null,
-        farmerProfile: profileMap.get(farmerUserId) || null,
-      };
-    });
+    const mapped = products.map((p) => ({
+      ...p,
+      _id: p.id,
+      farmerId: p.farmer
+        ? {
+            ...p.farmer,
+            _id: p.farmer.id,
+          }
+        : null,
+      farmerProfile: profileMap.get(p.farmerId) || null,
+    }));
 
     return JSON.parse(JSON.stringify(mapped));
   } catch (e) {

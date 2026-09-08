@@ -1,8 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { connectToDatabase } from '@/lib/db';
-import { Order } from '@/models/Order';
-import { FarmerProfile } from '@/models/FarmerProfile';
-import { Review } from '@/models/Review';
+import { prisma } from '@/lib/db';
 import { getAuthUser } from '@/lib/auth';
 
 export async function GET(req: NextRequest) {
@@ -12,36 +9,37 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    await connectToDatabase();
+    const orders = await prisma.order.findMany({
+      where: { consumerId: auth.userId },
+      include: {
+        farmer: {
+          select: { name: true, email: true, phone: true, address: true, id: true }
+        },
+        items: true,
+      },
+      orderBy: { createdAt: 'desc' }
+    });
 
-    const orders = await Order.find({ consumerId: auth.userId })
-      .populate('farmerId', 'name email phone address')
-      .sort({ createdAt: -1 })
-      .lean();
-
-    // Fetch farmer profiles and reviews
-    const farmerUserIds = orders.map((o: any) => o.farmerId?._id).filter(Boolean);
-    const orderIds = orders.map((o: any) => o._id);
+    const farmerUserIds = orders.map(o => o.farmerId).filter(Boolean);
+    const orderIds = orders.map(o => o.id);
 
     const [farmerProfiles, reviews] = await Promise.all([
-      FarmerProfile.find({ userId: { $in: farmerUserIds } }).lean(),
-      Review.find({ orderId: { $in: orderIds } }).lean(),
+      prisma.farmerProfile.findMany({ where: { userId: { in: farmerUserIds } } }),
+      prisma.review.findMany({ where: { orderId: { in: orderIds } } })
     ]);
 
     const profileMap = new Map();
-    farmerProfiles.forEach((fp) => profileMap.set(fp.userId.toString(), fp));
+    farmerProfiles.forEach(fp => profileMap.set(fp.userId, fp));
 
     const reviewMap = new Map();
-    reviews.forEach((r) => reviewMap.set(r.orderId.toString(), r));
+    reviews.forEach(r => reviewMap.set(r.orderId, r));
 
-    const enrichedOrders = orders.map((o: any) => {
-      const farmerUserId = o.farmerId?._id?.toString();
-      return {
-        ...o,
-        farmerProfile: profileMap.get(farmerUserId) || null,
-        review: reviewMap.get(o._id.toString()) || null,
-      };
-    });
+    const enrichedOrders = orders.map(o => ({
+      ...o,
+      farmerId: o.farmer, // mapping for frontend backwards compatibility
+      farmerProfile: profileMap.get(o.farmerId) || null,
+      review: reviewMap.get(o.id) || null,
+    }));
 
     return NextResponse.json({ orders: enrichedOrders });
   } catch (error: any) {

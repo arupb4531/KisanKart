@@ -1,8 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { connectToDatabase } from '@/lib/db';
-import { User } from '@/models/User';
-import { Product } from '@/models/Product';
-import { Order } from '@/models/Order';
+import { prisma } from '@/lib/db';
 import { getAuthUser } from '@/lib/auth';
 
 export async function GET(req: NextRequest) {
@@ -12,8 +9,6 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: 'Access denied. Admin role required.' }, { status: 403 });
     }
 
-    await connectToDatabase();
-
     const [
       totalFarmers,
       verifiedFarmers,
@@ -22,12 +17,12 @@ export async function GET(req: NextRequest) {
       totalProducts,
       orders,
     ] = await Promise.all([
-      User.countDocuments({ role: 'farmer' }),
-      User.countDocuments({ role: 'farmer', isVerified: true }),
-      User.countDocuments({ role: 'farmer', isVerified: false }),
-      User.countDocuments({ role: 'consumer' }),
-      Product.countDocuments({ isAvailable: true }),
-      Order.find({}).lean(),
+      prisma.user.count({ where: { role: 'farmer' } }),
+      prisma.user.count({ where: { role: 'farmer', isVerified: true } }),
+      prisma.user.count({ where: { role: 'farmer', isVerified: false } }),
+      prisma.user.count({ where: { role: 'consumer' } }),
+      prisma.product.count({ where: { isAvailable: true } }),
+      prisma.order.findMany(),
     ]);
 
     const totalOrders = orders.length;

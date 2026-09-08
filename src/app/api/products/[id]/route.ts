@@ -1,29 +1,32 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { connectToDatabase } from '@/lib/db';
-import { Product } from '@/models/Product';
-import { FarmerProfile } from '@/models/FarmerProfile';
+import { prisma } from '@/lib/db';
 import { getAuthUser } from '@/lib/auth';
 
 export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
-    await connectToDatabase();
 
-    const product = await Product.findById(id)
-      .populate('farmerId', 'name email phone address isVerified avatar createdAt')
-      .lean();
+    const product = await prisma.product.findUnique({
+      where: { id },
+      include: {
+        farmer: {
+          select: {
+            id: true, name: true, email: true, phone: true, address: true, isVerified: true, avatar: true, createdAt: true,
+            farmerProfile: true,
+          }
+        }
+      }
+    });
 
     if (!product) {
       return NextResponse.json({ error: 'Product not found.' }, { status: 404 });
     }
 
-    const farmerUserId = (product.farmerId as any)?._id;
-    const farmerProfile = farmerUserId ? await FarmerProfile.findOne({ userId: farmerUserId }).lean() : null;
-
     return NextResponse.json({
       product: {
         ...product,
-        farmerProfile,
+        farmerId: product.farmer, // backwards compatibility
+        farmerProfile: product.farmer?.farmerProfile || null,
       },
     });
   } catch (error: any) {
@@ -39,37 +42,40 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
       return NextResponse.json({ error: 'Unauthorized.' }, { status: 401 });
     }
 
-    await connectToDatabase();
-    const product = await Product.findById(id);
+    const product = await prisma.product.findUnique({ where: { id } });
     if (!product) {
       return NextResponse.json({ error: 'Product not found.' }, { status: 404 });
     }
 
     // Check ownership or admin
-    if (product.farmerId.toString() !== auth.userId && auth.role !== 'admin') {
+    if (product.farmerId !== auth.userId && auth.role !== 'admin') {
       return NextResponse.json({ error: 'Forbidden: You do not own this listing.' }, { status: 403 });
     }
 
     const body = await req.json();
     const { name, category, description, pricePerUnit, unit, stockQuantity, harvestDate, isOrganic, images, isAvailable } = body;
 
-    if (name !== undefined) product.name = name;
-    if (category !== undefined) product.category = category;
-    if (description !== undefined) product.description = description;
-    if (pricePerUnit !== undefined) product.pricePerUnit = Number(pricePerUnit);
-    if (unit !== undefined) product.unit = unit;
+    const dataToUpdate: any = {};
+    if (name !== undefined) dataToUpdate.name = name;
+    if (category !== undefined) dataToUpdate.category = category;
+    if (description !== undefined) dataToUpdate.description = description;
+    if (pricePerUnit !== undefined) dataToUpdate.pricePerUnit = Number(pricePerUnit);
+    if (unit !== undefined) dataToUpdate.unit = unit;
     if (stockQuantity !== undefined) {
-      product.stockQuantity = Number(stockQuantity);
-      product.isAvailable = Number(stockQuantity) > 0;
+      dataToUpdate.stockQuantity = Number(stockQuantity);
+      dataToUpdate.isAvailable = Number(stockQuantity) > 0;
     }
-    if (harvestDate !== undefined) product.harvestDate = new Date(harvestDate);
-    if (isOrganic !== undefined) product.isOrganic = Boolean(isOrganic);
-    if (images !== undefined) product.images = images;
-    if (isAvailable !== undefined) product.isAvailable = Boolean(isAvailable);
+    if (harvestDate !== undefined) dataToUpdate.harvestDate = new Date(harvestDate);
+    if (isOrganic !== undefined) dataToUpdate.isOrganic = Boolean(isOrganic);
+    if (images !== undefined) dataToUpdate.images = images;
+    if (isAvailable !== undefined) dataToUpdate.isAvailable = Boolean(isAvailable);
 
-    await product.save();
+    const updatedProduct = await prisma.product.update({
+      where: { id },
+      data: dataToUpdate
+    });
 
-    return NextResponse.json({ message: 'Product updated successfully.', product });
+    return NextResponse.json({ message: 'Product updated successfully.', product: updatedProduct });
   } catch (error: any) {
     return NextResponse.json({ error: error?.message || 'Server error' }, { status: 500 });
   }
@@ -83,17 +89,16 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ i
       return NextResponse.json({ error: 'Unauthorized.' }, { status: 401 });
     }
 
-    await connectToDatabase();
-    const product = await Product.findById(id);
+    const product = await prisma.product.findUnique({ where: { id } });
     if (!product) {
       return NextResponse.json({ error: 'Product not found.' }, { status: 404 });
     }
 
-    if (product.farmerId.toString() !== auth.userId && auth.role !== 'admin') {
+    if (product.farmerId !== auth.userId && auth.role !== 'admin') {
       return NextResponse.json({ error: 'Forbidden: You cannot delete this listing.' }, { status: 403 });
     }
 
-    await Product.findByIdAndDelete(id);
+    await prisma.product.delete({ where: { id } });
 
     return NextResponse.json({ message: 'Product listing removed successfully.' });
   } catch (error: any) {

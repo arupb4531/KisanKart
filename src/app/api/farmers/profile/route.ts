@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { connectToDatabase } from '@/lib/db';
-import { User } from '@/models/User';
-import { FarmerProfile } from '@/models/FarmerProfile';
+import { prisma } from '@/lib/db';
 import { getAuthUser } from '@/lib/auth';
 
 export async function PUT(req: NextRequest) {
@@ -11,40 +9,41 @@ export async function PUT(req: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized.' }, { status: 401 });
     }
 
-    await connectToDatabase();
     const body = await req.json();
     const { farmName, farmLocation, farmingMethod, bio, primaryCrops, experienceYears, verificationDocs, certificates, name, phone } = body;
 
     // Update User info if provided
     if (name || phone) {
-      const user = await User.findById(auth.userId);
-      if (user) {
-        if (name) user.name = name;
-        if (phone) user.phone = phone;
-        await user.save();
-      }
+      const userData: any = {};
+      if (name) userData.name = name;
+      if (phone) userData.phone = phone;
+      await prisma.user.update({
+        where: { id: auth.userId },
+        data: userData
+      });
     }
 
-    let profile = await FarmerProfile.findOne({ userId: auth.userId });
-    if (!profile) {
-      profile = new FarmerProfile({
+    const profileData: any = {};
+    if (farmName) profileData.farmName = farmName;
+    if (farmLocation) profileData.farmLocation = farmLocation;
+    if (farmingMethod) profileData.farmingMethod = farmingMethod;
+    if (bio !== undefined) profileData.bio = bio;
+    if (primaryCrops) profileData.primaryCrops = primaryCrops;
+    if (experienceYears !== undefined) profileData.experienceYears = Number(experienceYears);
+    if (verificationDocs) profileData.verificationDocs = verificationDocs;
+    if (certificates) profileData.certificates = certificates;
+
+    const profile = await prisma.farmerProfile.upsert({
+      where: { userId: auth.userId },
+      update: profileData,
+      create: {
         userId: auth.userId,
         farmName: farmName || 'My Farm',
         farmLocation: farmLocation || { address: '', city: 'Pune', state: 'Maharashtra', pincode: '411001' },
         farmingMethod: farmingMethod || 'organic',
-      });
-    }
-
-    if (farmName) profile.farmName = farmName;
-    if (farmLocation) profile.farmLocation = farmLocation;
-    if (farmingMethod) profile.farmingMethod = farmingMethod;
-    if (bio !== undefined) profile.bio = bio;
-    if (primaryCrops) profile.primaryCrops = primaryCrops;
-    if (experienceYears !== undefined) profile.experienceYears = Number(experienceYears);
-    if (verificationDocs) profile.verificationDocs = verificationDocs;
-    if (certificates) profile.certificates = certificates;
-
-    await profile.save();
+        ...profileData
+      }
+    });
 
     return NextResponse.json({
       message: 'Farmer profile updated successfully.',

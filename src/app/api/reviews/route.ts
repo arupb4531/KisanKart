@@ -1,8 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { connectToDatabase } from '@/lib/db';
-import { Review } from '@/models/Review';
-import { Order } from '@/models/Order';
-import { FarmerProfile } from '@/models/FarmerProfile';
+import { prisma } from '@/lib/db';
 import { getAuthUser } from '@/lib/auth';
 
 export async function POST(req: NextRequest) {
@@ -12,19 +9,18 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Please login to submit a review.' }, { status: 401 });
     }
 
-    await connectToDatabase();
     const { orderId, rating, comment } = await req.json();
 
     if (!orderId || !rating) {
       return NextResponse.json({ error: 'Order ID and rating (1-5) are required.' }, { status: 400 });
     }
 
-    const order = await Order.findById(orderId);
+    const order = await prisma.order.findUnique({ where: { id: orderId } });
     if (!order) {
       return NextResponse.json({ error: 'Order not found.' }, { status: 404 });
     }
 
-    if (order.consumerId.toString() !== auth.userId) {
+    if (order.consumerId !== auth.userId) {
       return NextResponse.json({ error: 'Forbidden: You can only review your own orders.' }, { status: 403 });
     }
 
@@ -36,30 +32,36 @@ export async function POST(req: NextRequest) {
     }
 
     // Check if review already exists
-    const existingReview = await Review.findOne({ orderId });
+    const existingReview = await prisma.review.findFirst({ where: { orderId } });
     if (existingReview) {
       return NextResponse.json({ error: 'You have already reviewed this order.' }, { status: 409 });
     }
 
-    const review = await Review.create({
-      orderId,
-      consumerId: auth.userId,
-      farmerId: order.farmerId,
-      rating: Number(rating),
-      comment: comment || '',
+    const review = await prisma.review.create({
+      data: {
+        orderId,
+        consumerId: auth.userId,
+        farmerId: order.farmerId,
+        rating: Number(rating),
+        comment: comment || '',
+      }
     });
 
     // Update farmer average rating
-    const allFarmerReviews = await Review.find({ farmerId: order.farmerId });
-    const totalRatings = allFarmerReviews.length;
-    const avg = totalRatings > 0
-      ? Number((allFarmerReviews.reduce((sum, r) => sum + r.rating, 0) / totalRatings).toFixed(1))
-      : Number(rating);
+    const aggregate = await prisma.review.aggregate({
+      where: { farmerId: order.farmerId },
+      _avg: { rating: true },
+      _count: { rating: true }
+    });
+    
+    const avg = aggregate._avg.rating ? Number(aggregate._avg.rating.toFixed(1)) : Number(rating);
+    const totalRatings = aggregate._count.rating;
 
-    await FarmerProfile.findOneAndUpdate(
-      { userId: order.farmerId },
-      { averageRating: avg, totalRatings }
-    );
+    // We use updateMany here just in case the profile doesn't exist yet so it doesn't throw
+    await prisma.farmerProfile.updateMany({
+      where: { userId: order.farmerId },
+      data: { averageRating: avg, totalRatings }
+    });
 
     return NextResponse.json(
       { message: 'Review submitted successfully.', review },

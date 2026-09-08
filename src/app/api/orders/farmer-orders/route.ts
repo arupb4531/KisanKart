@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { connectToDatabase } from '@/lib/db';
-import { Order } from '@/models/Order';
+import { prisma } from '@/lib/db';
 import { getAuthUser } from '@/lib/auth';
 
 export async function GET(req: NextRequest) {
@@ -10,14 +9,23 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized.' }, { status: 401 });
     }
 
-    await connectToDatabase();
+    const orders = await prisma.order.findMany({
+      where: { farmerId: auth.userId },
+      include: {
+        consumer: {
+          select: { name: true, email: true, phone: true, address: true, avatar: true }
+        },
+        items: true,
+      },
+      orderBy: { createdAt: 'desc' }
+    });
 
-    const orders = await Order.find({ farmerId: auth.userId })
-      .populate('consumerId', 'name email phone address avatar')
-      .sort({ createdAt: -1 })
-      .lean();
+    const mappedOrders = orders.map(o => ({
+      ...o,
+      consumerId: o.consumer // frontend compat
+    }));
 
-    return NextResponse.json({ orders });
+    return NextResponse.json({ orders: mappedOrders });
   } catch (error: any) {
     return NextResponse.json({ error: error?.message || 'Server error' }, { status: 500 });
   }

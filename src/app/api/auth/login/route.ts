@@ -1,11 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { connectToDatabase } from '@/lib/db';
-import { User } from '@/models/User';
+import { prisma } from '@/lib/db';
 import { comparePassword, signToken } from '@/lib/auth';
 
 export async function POST(req: NextRequest) {
   try {
-    await connectToDatabase();
     const { email, password } = await req.json();
 
     if (!email || !password) {
@@ -15,7 +13,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const user = await User.findOne({ email: email.toLowerCase() });
+    const user = await prisma.user.findUnique({ where: { email: email.toLowerCase() } });
     if (!user) {
       return NextResponse.json(
         { error: 'Invalid email or password.' },
@@ -32,7 +30,7 @@ export async function POST(req: NextRequest) {
     }
 
     const token = signToken({
-      userId: user._id.toString(),
+      userId: user.id,
       email: user.email,
       role: user.role as any,
       isVerified: user.isVerified,
@@ -42,7 +40,7 @@ export async function POST(req: NextRequest) {
     const response = NextResponse.json({
       message: 'Login successful.',
       user: {
-        id: user._id,
+        id: user.id,
         name: user.name,
         email: user.email,
         role: user.role,

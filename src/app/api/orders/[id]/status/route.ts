@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { connectToDatabase } from '@/lib/db';
-import { Order } from '@/models/Order';
+import { prisma } from '@/lib/db';
 import { getAuthUser } from '@/lib/auth';
 
 export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
@@ -11,14 +10,13 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
       return NextResponse.json({ error: 'Unauthorized.' }, { status: 401 });
     }
 
-    await connectToDatabase();
-    const order = await Order.findById(id);
+    const order = await prisma.order.findUnique({ where: { id } });
     if (!order) {
       return NextResponse.json({ error: 'Order not found.' }, { status: 404 });
     }
 
     // Must be the farmer of this order or admin
-    if (order.farmerId.toString() !== auth.userId && auth.role !== 'admin') {
+    if (order.farmerId !== auth.userId && auth.role !== 'admin') {
       return NextResponse.json({ error: 'Forbidden: You cannot modify this order status.' }, { status: 403 });
     }
 
@@ -29,17 +27,21 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
       return NextResponse.json({ error: 'Invalid order status value.' }, { status: 400 });
     }
 
-    if (status) order.status = status;
-    if (paymentStatus) order.paymentStatus = paymentStatus;
+    const dataToUpdate: any = {};
+    if (status) dataToUpdate.status = status;
+    if (paymentStatus) dataToUpdate.paymentStatus = paymentStatus;
     if (status === 'delivered' && order.paymentMethod === 'cod') {
-      order.paymentStatus = 'paid';
+      dataToUpdate.paymentStatus = 'paid';
     }
 
-    await order.save();
+    const updatedOrder = await prisma.order.update({
+      where: { id },
+      data: dataToUpdate
+    });
 
     return NextResponse.json({
-      message: `Order status updated to ${order.status}.`,
-      order,
+      message: `Order status updated to ${updatedOrder.status}.`,
+      order: updatedOrder,
     });
   } catch (error: any) {
     return NextResponse.json({ error: error?.message || 'Server error' }, { status: 500 });

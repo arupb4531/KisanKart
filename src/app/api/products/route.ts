@@ -1,13 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { connectToDatabase } from '@/lib/db';
-import { Product } from '@/models/Product';
-import { User } from '@/models/User';
-import { FarmerProfile } from '@/models/FarmerProfile';
+import { prisma } from '@/lib/db';
 import { getAuthUser } from '@/lib/auth';
 
 export async function GET(req: NextRequest) {
   try {
-    await connectToDatabase();
     const { searchParams } = new URL(req.url);
 
     const category = searchParams.get('category');
@@ -22,64 +18,47 @@ export async function GET(req: NextRequest) {
 
     const filter: any = { isAvailable: true };
 
-    if (category && category !== 'all') {
-      filter.category = category.toLowerCase();
-    }
-
-    if (isOrganic === 'true') {
-      filter.isOrganic = true;
-    }
-
-    if (farmerId) {
-      filter.farmerId = farmerId;
-    }
-
+    if (category && category !== 'all') filter.category = category.toLowerCase();
+    if (isOrganic === 'true') filter.isOrganic = true;
+    if (farmerId) filter.farmerId = farmerId;
+    
     if (search) {
-      filter.$or = [
-        { name: { $regex: search, $options: 'i' } },
-        { description: { $regex: search, $options: 'i' } },
+      filter.OR = [
+        { name: { contains: search, mode: 'insensitive' } },
+        { description: { contains: search, mode: 'insensitive' } },
       ];
     }
 
     if (minPrice || maxPrice) {
       filter.pricePerUnit = {};
-      if (minPrice) filter.pricePerUnit.$gte = Number(minPrice);
-      if (maxPrice) filter.pricePerUnit.$lte = Number(maxPrice);
+      if (minPrice) filter.pricePerUnit.gte = Number(minPrice);
+      if (maxPrice) filter.pricePerUnit.lte = Number(maxPrice);
     }
 
-    // Query products
-    let sortQuery: any = { createdAt: -1 };
-    if (sort === 'harvest_desc') {
-      sortQuery = { harvestDate: -1 };
-    } else if (sort === 'price_asc') {
-      sortQuery = { pricePerUnit: 1 };
-    } else if (sort === 'price_desc') {
-      sortQuery = { pricePerUnit: -1 };
-    }
+    let orderBy: any = { createdAt: 'desc' };
+    if (sort === 'harvest_desc') orderBy = { harvestDate: 'desc' };
+    else if (sort === 'price_asc') orderBy = { pricePerUnit: 'asc' };
+    else if (sort === 'price_desc') orderBy = { pricePerUnit: 'desc' };
 
-    const products = await Product.find(filter)
-      .populate('farmerId', 'name email phone address isVerified avatar')
-      .sort(sortQuery)
-      .lean();
-
-    // Attach farmer profiles for rich metadata
-    const farmerIds = products.map((p: any) => p.farmerId?._id).filter(Boolean);
-    const farmerProfiles = await FarmerProfile.find({ userId: { $in: farmerIds } }).lean();
-
-    const profileMap = new Map();
-    farmerProfiles.forEach((fp) => {
-      profileMap.set(fp.userId.toString(), fp);
+    const products = await prisma.product.findMany({
+      where: filter,
+      orderBy,
+      include: {
+        farmer: {
+          select: {
+            id: true, name: true, email: true, phone: true, address: true, isVerified: true, avatar: true,
+            farmerProfile: true,
+          }
+        }
+      }
     });
 
-    let results = products.map((p: any) => {
-      const farmerUserId = p.farmerId?._id?.toString();
-      return {
-        ...p,
-        farmerProfile: profileMap.get(farmerUserId) || null,
-      };
-    });
+    let results = products.map((p: any) => ({
+      ...p,
+      farmerId: p.farmer, // keep backwards compatibility for frontend
+      farmerProfile: p.farmer?.farmerProfile || null,
+    }));
 
-    // Optional client city filter if city param provided
     if (city && city !== 'all') {
       results = results.filter((p: any) => {
         const farmCity = p.farmerProfile?.farmLocation?.city || p.farmerId?.address?.city;
@@ -87,7 +66,6 @@ export async function GET(req: NextRequest) {
       });
     }
 
-    // Optional farmingMethod filter if specified
     if (farmingMethod && farmingMethod !== 'all') {
       results = results.filter((p: any) => {
         const method = p.farmerProfile?.farmingMethod;
@@ -112,10 +90,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Only authorized farmers can list produce.' }, { status: 403 });
     }
 
-    await connectToDatabase();
-
-    // Check Verification Gate
-    const farmer = await User.findById(auth.userId);
+    const farmer = await prisma.user.findUnique({ where: { id: auth.userId } });
     if (!farmer) {
       return NextResponse.json({ error: 'Farmer user not found.' }, { status: 404 });
     }
@@ -144,18 +119,20 @@ export async function POST(req: NextRequest) {
       ? images
       : ['https://images.unsplash.com/photo-1540420773420-3366772f4999?w=800&auto=format&fit=crop'];
 
-    const newProduct = await Product.create({
-      farmerId: farmer._id,
-      name,
-      category: category || 'vegetables',
-      description: description || '',
-      pricePerUnit: Number(pricePerUnit),
-      unit: unit || 'kg',
-      stockQuantity: Number(stockQuantity),
-      harvestDate: harvestDate ? new Date(harvestDate) : new Date(),
-      isOrganic: Boolean(isOrganic),
-      images: defaultImages,
-      isAvailable: Number(stockQuantity) > 0,
+    const newProduct = await prisma.product.create({
+      data: {
+        farmerId: farmer.id,
+        name,
+        category: category || 'vegetables',
+        description: description || '',
+        pricePerUnit: Number(pricePerUnit),
+        unit: unit || 'kg',
+        stockQuantity: Number(stockQuantity),
+        harvestDate: harvestDate ? new Date(harvestDate) : new Date(),
+        isOrganic: Boolean(isOrganic),
+        images: defaultImages,
+        isAvailable: Number(stockQuantity) > 0,
+      }
     });
 
     return NextResponse.json(

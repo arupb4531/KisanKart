@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { connectToDatabase } from '@/lib/db';
-import { User } from '@/models/User';
+import { prisma } from '@/lib/db';
 import { getAuthUser } from '@/lib/auth';
 
 export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
@@ -11,24 +10,25 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
       return NextResponse.json({ error: 'Access denied. Admin role required.' }, { status: 403 });
     }
 
-    await connectToDatabase();
     const { isVerified } = await req.json();
 
-    const user = await User.findById(id);
+    const user = await prisma.user.findUnique({ where: { id } });
     if (!user || user.role !== 'farmer') {
       return NextResponse.json({ error: 'Farmer account not found.' }, { status: 404 });
     }
 
-    user.isVerified = Boolean(isVerified);
-    await user.save();
+    const updatedUser = await prisma.user.update({
+      where: { id },
+      data: { isVerified: Boolean(isVerified) }
+    });
 
     return NextResponse.json({
-      message: `Farmer ${user.name} has been ${user.isVerified ? 'verified & approved' : 'rejected / unverified'}.`,
+      message: `Farmer ${updatedUser.name} has been ${updatedUser.isVerified ? 'verified & approved' : 'rejected / unverified'}.`,
       farmer: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        isVerified: user.isVerified,
+        id: updatedUser.id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        isVerified: updatedUser.isVerified,
       },
     });
   } catch (error: any) {

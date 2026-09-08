@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { connectToDatabase } from '@/lib/db';
-import { User } from '@/models/User';
-import { FarmerProfile } from '@/models/FarmerProfile';
+import { prisma } from '@/lib/db';
 import { getAuthUser } from '@/lib/auth';
 
 export async function GET(req: NextRequest) {
@@ -11,28 +9,30 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    await connectToDatabase();
-    const user = await User.findById(auth.userId).select('-passwordHash');
+    const user = await prisma.user.findUnique({
+      where: { id: auth.userId },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        phone: true,
+        role: true,
+        isVerified: true,
+        address: true,
+        avatar: true,
+      }
+    });
     if (!user) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
     let farmerProfile = null;
     if (user.role === 'farmer') {
-      farmerProfile = await FarmerProfile.findOne({ userId: user._id });
+      farmerProfile = await prisma.farmerProfile.findUnique({ where: { userId: user.id } });
     }
 
     return NextResponse.json({
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        phone: user.phone,
-        role: user.role,
-        isVerified: user.isVerified,
-        address: user.address,
-        avatar: user.avatar,
-      },
+      user,
       farmerProfile,
     });
   } catch (error: any) {
