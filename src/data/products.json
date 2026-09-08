@@ -40,7 +40,7 @@
     "stockQuantity": 60,
     "harvestHoursAgo": 6,
     "isOrganic": true,
-    "description": "Tender baby spinach leaves grown in purified mineral spring water and organic bio-compost. Rich in iron, crisp, and 100% soil-residue clean. This hydroponic technique uses 90% less water than traditional farming while providing a denser nutrient profile. Excellent for raw salads, smoothies, or lightly sautéed dishes.",
+    "description": "Tender baby spinach leaves grown in purified mineral spring water and organic bio-compost. Rich in iron, crisp, and 100% soil-residue clean. This hydroponic technique uses 90% less water than traditional farming while providing a denser nutrient profile. Excellent for raw salads, smoothies, or lightly saut\u00c3\u00a9ed dishes.",
     "images": [
       "https://images.unsplash.com/photo-1576045057995-568f588f82fb?w=800&auto=format&fit=crop"
     ]
@@ -298,6 +298,456 @@
     "description": "Unrefined, naturally occurring pink rock salt directly sourced from ancient salt mines. Contains 84 trace minerals including calcium, magnesium, and potassium. Coarsely ground for cooking and seasoning, providing a pure and subtle salty flavor.",
     "images": [
       "https://images.unsplash.com/photo-1614285437812-70bfa3f0af15?w=800&auto=format&fit=crop"
+    ]
+  },
+  {
+    "id": "prod-022",
+    "name": "Organic Red Onions",
+    "category": "vegetables",
+    "farmerEmail": "sunita@kisankart.com",
+    "pricePerUnit": 60,
+    "unit": "kg",
+    "stockQuantity": 100,
+    "harvestHoursAgo": 13,
+    "isOrganic": true,
+    "description": "Premium quality organic red onions directly sourced from our verified farms. Grown naturally to bring the authentic rural taste to your kitchen.",
+    "images": [
+      "https://images.unsplash.com/photo-1618512496248-a07ce83aa8cb?w=800&auto=format&fit=crop"
+    ]
+  },
+  {
+    "id": "prod-023",
+    "name": "Fresh Green Beans",
+    "category": "vegetables",
+    "farmerEmail": "vikram@kisankart.com",
+    "pricePerUnit": 70,
+    "unit": "kg",
+    "stockQuantity": 100,
+    "harvestHoursAgo": 14,
+    "isOrganic": true,
+    "description": "Premium quality fresh green beans directly sourced from our verified farms. Grown naturally to bring the authentic rural taste to your kitchen.",
+    "images": [
+      "https://images.unsplash.com/photo-1596645579975-2b4f981240c5?w=800&auto=format&fit=crop"
+    ]
+  },
+  {
+    "id": "prod-024",
+    "name": "Sweet Corn On The Cob",
+    "category": "vegetables",
+    "farmerEmail": "farmer@kisankart.com",
+    "pricePerUnit": 80,
+    "unit": "kg",
+    "stockQuantity": 100,
+    "harvestHoursAgo": 15,
+    "isOrganic": true,
+    "description": "Premium quality sweet corn on the cob directly sourced from our verified farms. Grown naturally to bring the authentic rural taste to your kitchen.",
+    "images": [
+      "https://images.unsplash.com/photo-1551754655-cd27e38d2076?w=800&auto=format&fit=crop"
+    ]
+  },
+  {
+    "id": "prod-025",
+    "name": "Organic Carrots",
+    "category": "vegetables",
+    "farmerEmail": "sunita@kisankart.com",
+    "pricePerUnit": 90,
+    "unit": "kg",
+    "stockQuantity": 100,
+    "harvestHoursAgo": 16,
+    "isOrganic": true,
+    "description": "Premium quality organic carrots directly sourced from our verified farms. Grown naturally to bring the authentic rural taste to your kitchen.",
+    "images": [
+      "https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?w=800&auto=format&fit=crop"
+    ]
+  },
+  {
+    "id": "prod-026",
+    "name": "Desi Cabbage",
+    "category": "vegetables",
+    "farmerEmail": "vikram@kisankart.com",
+    "pricePerUnit": 100,
+    "unit": "kg",
+    "stockQuantity": 100,
+    "harvestHoursAgo": 17,
+    "isOrganic": true,
+    "description": "Premium quality desi cabbage directly sourced from our verified farms. Grown naturally to bring the authentic rural taste to your kitchen.",
+    "images": [
+      "https://images.unsplash.com/photo-1552599727-463259dd18a0?w=800&auto=format&fit=crop"
+    ]
+  },
+  {
+    "id": "prod-027",
+    "name": "Fresh Cauliflower",
+    "category": "vegetables",
+    "farmerEmail": "farmer@kisankart.com",
+    "pricePerUnit": 110,
+    "unit": "kg",
+    "stockQuantity": 100,
+    "harvestHoursAgo": 18,
+    "isOrganic": true,
+    "description": "Premium quality fresh cauliflower directly sourced from our verified farms. Grown naturally to bring the authentic rural taste to your kitchen.",
+    "images": [
+      "https://images.unsplash.com/photo-1568584711075-3d021a7c3ca3?w=800&auto=format&fit=crop"
+    ]
+  },
+  {
+    "id": "prod-028",
+    "name": "Green Peas (Matar)",
+    "category": "vegetables",
+    "farmerEmail": "sunita@kisankart.com",
+    "pricePerUnit": 120,
+    "unit": "kg",
+    "stockQuantity": 100,
+    "harvestHoursAgo": 19,
+    "isOrganic": true,
+    "description": "Premium quality green peas (matar) directly sourced from our verified farms. Grown naturally to bring the authentic rural taste to your kitchen.",
+    "images": [
+      "https://images.unsplash.com/photo-1592404169542-f254b73b53f6?w=800&auto=format&fit=crop"
+    ]
+  },
+  {
+    "id": "prod-029",
+    "name": "Bitter Gourd (Karela)",
+    "category": "vegetables",
+    "farmerEmail": "vikram@kisankart.com",
+    "pricePerUnit": 130,
+    "unit": "kg",
+    "stockQuantity": 100,
+    "harvestHoursAgo": 20,
+    "isOrganic": true,
+    "description": "Premium quality bitter gourd (karela) directly sourced from our verified farms. Grown naturally to bring the authentic rural taste to your kitchen.",
+    "images": [
+      "https://images.unsplash.com/photo-1628189871790-25fc5c8b29b6?w=800&auto=format&fit=crop"
+    ]
+  },
+  {
+    "id": "prod-030",
+    "name": "Bottle Gourd (Lauki)",
+    "category": "vegetables",
+    "farmerEmail": "farmer@kisankart.com",
+    "pricePerUnit": 140,
+    "unit": "kg",
+    "stockQuantity": 100,
+    "harvestHoursAgo": 21,
+    "isOrganic": true,
+    "description": "Premium quality bottle gourd (lauki) directly sourced from our verified farms. Grown naturally to bring the authentic rural taste to your kitchen.",
+    "images": [
+      "https://images.unsplash.com/photo-1615554625292-628d6c8f948f?w=800&auto=format&fit=crop"
+    ]
+  },
+  {
+    "id": "prod-031",
+    "name": "Lady Finger (Bhindi)",
+    "category": "vegetables",
+    "farmerEmail": "sunita@kisankart.com",
+    "pricePerUnit": 150,
+    "unit": "kg",
+    "stockQuantity": 100,
+    "harvestHoursAgo": 22,
+    "isOrganic": true,
+    "description": "Premium quality lady finger (bhindi) directly sourced from our verified farms. Grown naturally to bring the authentic rural taste to your kitchen.",
+    "images": [
+      "https://images.unsplash.com/photo-1603597375253-157ff40d2105?w=800&auto=format&fit=crop"
+    ]
+  },
+  {
+    "id": "prod-032",
+    "name": "Sweet Papaya",
+    "category": "fruits",
+    "farmerEmail": "vikram@kisankart.com",
+    "pricePerUnit": 160,
+    "unit": "kg",
+    "stockQuantity": 100,
+    "harvestHoursAgo": 23,
+    "isOrganic": true,
+    "description": "Premium quality sweet papaya directly sourced from our verified farms. Grown naturally to bring the authentic rural taste to your kitchen.",
+    "images": [
+      "https://images.unsplash.com/photo-1517282009859-f000ec3b26fe?w=800&auto=format&fit=crop"
+    ]
+  },
+  {
+    "id": "prod-033",
+    "name": "Fresh Guava (Amrood)",
+    "category": "fruits",
+    "farmerEmail": "farmer@kisankart.com",
+    "pricePerUnit": 170,
+    "unit": "kg",
+    "stockQuantity": 100,
+    "harvestHoursAgo": 24,
+    "isOrganic": true,
+    "description": "Premium quality fresh guava (amrood) directly sourced from our verified farms. Grown naturally to bring the authentic rural taste to your kitchen.",
+    "images": [
+      "https://images.unsplash.com/photo-1536511132770-e5058c7e8c46?w=800&auto=format&fit=crop"
+    ]
+  },
+  {
+    "id": "prod-034",
+    "name": "Organic Custard Apple",
+    "category": "fruits",
+    "farmerEmail": "sunita@kisankart.com",
+    "pricePerUnit": 180,
+    "unit": "kg",
+    "stockQuantity": 100,
+    "harvestHoursAgo": 25,
+    "isOrganic": true,
+    "description": "Premium quality organic custard apple directly sourced from our verified farms. Grown naturally to bring the authentic rural taste to your kitchen.",
+    "images": [
+      "https://images.unsplash.com/photo-1588616142171-e0cfaab1a5f4?w=800&auto=format&fit=crop"
+    ]
+  },
+  {
+    "id": "prod-035",
+    "name": "Desi Bananas",
+    "category": "fruits",
+    "farmerEmail": "vikram@kisankart.com",
+    "pricePerUnit": 190,
+    "unit": "kg",
+    "stockQuantity": 100,
+    "harvestHoursAgo": 26,
+    "isOrganic": true,
+    "description": "Premium quality desi bananas directly sourced from our verified farms. Grown naturally to bring the authentic rural taste to your kitchen.",
+    "images": [
+      "https://images.unsplash.com/photo-1571501679680-de32f1e7aad4?w=800&auto=format&fit=crop"
+    ]
+  },
+  {
+    "id": "prod-036",
+    "name": "Kashmir Apples",
+    "category": "fruits",
+    "farmerEmail": "farmer@kisankart.com",
+    "pricePerUnit": 200,
+    "unit": "kg",
+    "stockQuantity": 100,
+    "harvestHoursAgo": 27,
+    "isOrganic": true,
+    "description": "Premium quality kashmir apples directly sourced from our verified farms. Grown naturally to bring the authentic rural taste to your kitchen.",
+    "images": [
+      "https://images.unsplash.com/photo-1560806887-1e4cd0b6faa6?w=800&auto=format&fit=crop"
+    ]
+  },
+  {
+    "id": "prod-037",
+    "name": "Organic Oranges",
+    "category": "fruits",
+    "farmerEmail": "sunita@kisankart.com",
+    "pricePerUnit": 210,
+    "unit": "kg",
+    "stockQuantity": 100,
+    "harvestHoursAgo": 28,
+    "isOrganic": true,
+    "description": "Premium quality organic oranges directly sourced from our verified farms. Grown naturally to bring the authentic rural taste to your kitchen.",
+    "images": [
+      "https://images.unsplash.com/photo-1547514701-42782101795e?w=800&auto=format&fit=crop"
+    ]
+  },
+  {
+    "id": "prod-038",
+    "name": "Fresh Sapota (Chikoo)",
+    "category": "fruits",
+    "farmerEmail": "vikram@kisankart.com",
+    "pricePerUnit": 220,
+    "unit": "kg",
+    "stockQuantity": 100,
+    "harvestHoursAgo": 29,
+    "isOrganic": true,
+    "description": "Premium quality fresh sapota (chikoo) directly sourced from our verified farms. Grown naturally to bring the authentic rural taste to your kitchen.",
+    "images": [
+      "https://images.unsplash.com/photo-1601493700631-2b16ec4b4716?w=800&auto=format&fit=crop"
+    ]
+  },
+  {
+    "id": "prod-039",
+    "name": "Pure Buffalo Milk",
+    "category": "dairy",
+    "farmerEmail": "farmer@kisankart.com",
+    "pricePerUnit": 230,
+    "unit": "kg",
+    "stockQuantity": 100,
+    "harvestHoursAgo": 30,
+    "isOrganic": true,
+    "description": "Premium quality pure buffalo milk directly sourced from our verified farms. Grown naturally to bring the authentic rural taste to your kitchen.",
+    "images": [
+      "https://images.unsplash.com/photo-1563636619-e9143da7973b?w=800&auto=format&fit=crop"
+    ]
+  },
+  {
+    "id": "prod-040",
+    "name": "Organic Cow Butter",
+    "category": "dairy",
+    "farmerEmail": "sunita@kisankart.com",
+    "pricePerUnit": 240,
+    "unit": "kg",
+    "stockQuantity": 100,
+    "harvestHoursAgo": 31,
+    "isOrganic": true,
+    "description": "Premium quality organic cow butter directly sourced from our verified farms. Grown naturally to bring the authentic rural taste to your kitchen.",
+    "images": [
+      "https://images.unsplash.com/photo-1589301760014-d929f39ce9b1?w=800&auto=format&fit=crop"
+    ]
+  },
+  {
+    "id": "prod-041",
+    "name": "Fresh Paneer",
+    "category": "dairy",
+    "farmerEmail": "vikram@kisankart.com",
+    "pricePerUnit": 250,
+    "unit": "kg",
+    "stockQuantity": 100,
+    "harvestHoursAgo": 32,
+    "isOrganic": true,
+    "description": "Premium quality fresh paneer directly sourced from our verified farms. Grown naturally to bring the authentic rural taste to your kitchen.",
+    "images": [
+      "https://images.unsplash.com/photo-1631452180519-c014fe946cea?w=800&auto=format&fit=crop"
+    ]
+  },
+  {
+    "id": "prod-042",
+    "name": "Premium Basmati Rice",
+    "category": "grains",
+    "farmerEmail": "farmer@kisankart.com",
+    "pricePerUnit": 260,
+    "unit": "kg",
+    "stockQuantity": 100,
+    "harvestHoursAgo": 33,
+    "isOrganic": true,
+    "description": "Premium quality premium basmati rice directly sourced from our verified farms. Grown naturally to bring the authentic rural taste to your kitchen.",
+    "images": [
+      "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=800&auto=format&fit=crop"
+    ]
+  },
+  {
+    "id": "prod-043",
+    "name": "Pearl Millet (Bajra)",
+    "category": "grains",
+    "farmerEmail": "sunita@kisankart.com",
+    "pricePerUnit": 270,
+    "unit": "kg",
+    "stockQuantity": 100,
+    "harvestHoursAgo": 34,
+    "isOrganic": true,
+    "description": "Premium quality pearl millet (bajra) directly sourced from our verified farms. Grown naturally to bring the authentic rural taste to your kitchen.",
+    "images": [
+      "https://images.unsplash.com/photo-1596541604085-f55bb245763e?w=800&auto=format&fit=crop"
+    ]
+  },
+  {
+    "id": "prod-044",
+    "name": "Sorghum (Jowar)",
+    "category": "grains",
+    "farmerEmail": "vikram@kisankart.com",
+    "pricePerUnit": 280,
+    "unit": "kg",
+    "stockQuantity": 100,
+    "harvestHoursAgo": 35,
+    "isOrganic": true,
+    "description": "Premium quality sorghum (jowar) directly sourced from our verified farms. Grown naturally to bring the authentic rural taste to your kitchen.",
+    "images": [
+      "https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=800&auto=format&fit=crop"
+    ]
+  },
+  {
+    "id": "prod-045",
+    "name": "Green Gram (Moong Dal)",
+    "category": "pulses",
+    "farmerEmail": "farmer@kisankart.com",
+    "pricePerUnit": 290,
+    "unit": "kg",
+    "stockQuantity": 100,
+    "harvestHoursAgo": 12,
+    "isOrganic": true,
+    "description": "Premium quality green gram (moong dal) directly sourced from our verified farms. Grown naturally to bring the authentic rural taste to your kitchen.",
+    "images": [
+      "https://images.unsplash.com/photo-1599940824399-b87987ceb72a?w=800&auto=format&fit=crop"
+    ]
+  },
+  {
+    "id": "prod-046",
+    "name": "Black Gram (Urad Dal)",
+    "category": "pulses",
+    "farmerEmail": "sunita@kisankart.com",
+    "pricePerUnit": 300,
+    "unit": "kg",
+    "stockQuantity": 100,
+    "harvestHoursAgo": 13,
+    "isOrganic": true,
+    "description": "Premium quality black gram (urad dal) directly sourced from our verified farms. Grown naturally to bring the authentic rural taste to your kitchen.",
+    "images": [
+      "https://images.unsplash.com/photo-1599940824399-b87987ceb72a?w=800&auto=format&fit=crop"
+    ]
+  },
+  {
+    "id": "prod-047",
+    "name": "Chickpeas (Chana)",
+    "category": "pulses",
+    "farmerEmail": "vikram@kisankart.com",
+    "pricePerUnit": 310,
+    "unit": "kg",
+    "stockQuantity": 100,
+    "harvestHoursAgo": 14,
+    "isOrganic": true,
+    "description": "Premium quality chickpeas (chana) directly sourced from our verified farms. Grown naturally to bring the authentic rural taste to your kitchen.",
+    "images": [
+      "https://images.unsplash.com/photo-1515543904379-3d757afe72e4?w=800&auto=format&fit=crop"
+    ]
+  },
+  {
+    "id": "prod-048",
+    "name": "Pure Honey",
+    "category": "other",
+    "farmerEmail": "farmer@kisankart.com",
+    "pricePerUnit": 320,
+    "unit": "kg",
+    "stockQuantity": 100,
+    "harvestHoursAgo": 15,
+    "isOrganic": true,
+    "description": "Premium quality pure honey directly sourced from our verified farms. Grown naturally to bring the authentic rural taste to your kitchen.",
+    "images": [
+      "https://images.unsplash.com/photo-1587049352847-4d4b1ed7e2e3?w=800&auto=format&fit=crop"
+    ]
+  },
+  {
+    "id": "prod-049",
+    "name": "Organic Jaggery Powder",
+    "category": "other",
+    "farmerEmail": "sunita@kisankart.com",
+    "pricePerUnit": 330,
+    "unit": "kg",
+    "stockQuantity": 100,
+    "harvestHoursAgo": 16,
+    "isOrganic": true,
+    "description": "Premium quality organic jaggery powder directly sourced from our verified farms. Grown naturally to bring the authentic rural taste to your kitchen.",
+    "images": [
+      "https://images.unsplash.com/photo-1621245089332-90209427b2f6?w=800&auto=format&fit=crop"
+    ]
+  },
+  {
+    "id": "prod-050",
+    "name": "Cold Pressed Peanut Oil",
+    "category": "other",
+    "farmerEmail": "vikram@kisankart.com",
+    "pricePerUnit": 340,
+    "unit": "kg",
+    "stockQuantity": 100,
+    "harvestHoursAgo": 17,
+    "isOrganic": true,
+    "description": "Premium quality cold pressed peanut oil directly sourced from our verified farms. Grown naturally to bring the authentic rural taste to your kitchen.",
+    "images": [
+      "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=800&auto=format&fit=crop"
+    ]
+  },
+  {
+    "id": "prod-051",
+    "name": "Turmeric Root",
+    "category": "other",
+    "farmerEmail": "farmer@kisankart.com",
+    "pricePerUnit": 350,
+    "unit": "kg",
+    "stockQuantity": 100,
+    "harvestHoursAgo": 18,
+    "isOrganic": true,
+    "description": "Premium quality turmeric root directly sourced from our verified farms. Grown naturally to bring the authentic rural taste to your kitchen.",
+    "images": [
+      "https://images.unsplash.com/photo-1615486171431-7b0658cb0208?w=800&auto=format&fit=crop"
     ]
   }
 ]
