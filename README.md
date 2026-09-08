@@ -22,8 +22,8 @@
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/your-username/kisankart.git
-   cd kisankart
+   git clone https://github.com/arupb4531/KisanKart.git
+   cd KisanKart
    ```
 
 2. **Install dependencies:**
@@ -63,17 +63,17 @@ To view the app on your mobile phone or another device connected to your home/of
 If you want anyone in the world to open your site directly via a link (without downloading or running code):
 
 ### 1-Click Deploy on Vercel (Free)
-1. Push this project to your GitHub account:
+1. Push this project to your GitHub account (or fork it):
    ```bash
    git init
    git add .
    git commit -m "Initial commit of KisanKart"
-   git remote add origin https://github.com/YOUR_USERNAME/kisankart.git
+   git remote add origin https://github.com/arupb4531/KisanKart.git
    git branch -M main
    git push -u origin main
    ```
 2. Go to [vercel.com](https://vercel.com) and click **"Add New Project"**.
-3. Import your `kisankart` repository.
+3. Import your `KisanKart` repository.
 4. Set the environment variable:
    - `JWT_SECRET`: `kisankart_super_secure_jwt_secret_key_2026`
    - *(Optional)* `MONGODB_URI`: Connect a free [MongoDB Atlas](https://www.mongodb.com/atlas) cluster URI (or use the built-in storage).
