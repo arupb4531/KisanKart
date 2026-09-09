@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "seed": "node scripts/seed-runner.js",
-    "postinstall": "prisma skills sync || exit 0"
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@prisma/client": "^6.19.3",
