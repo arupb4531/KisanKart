@@ -1,7 +1,7 @@
 # 🌱 KisanKart — Next-Gen Direct Farmer-to-Consumer Agri Marketplace
 
-[![Vercel Deployment](https://img.shields.io/badge/Deployed_on-Vercel-black?logo=vercel)](https://kisan-kart-rosy.vercel.app)
-**Live Demo:** [https://kisan-kart-rosy.vercel.app](https://kisan-kart-rosy.vercel.app)
+[![Vercel Deployment](https://img.shields.io/badge/Deployed_on-Vercel-black?logo=vercel)](https://kisan-kart-rosy-beta.vercel.app)
+**Live Demo:** [https://kisan-kart-rosy-beta.vercel.app](https://kisan-kart-rosy-beta.vercel.app)
 
 > **Eliminating intermediaries in the agricultural supply chain.**  
 > Connect verified local Indian growers directly with urban households for fresh organic produce, orchard fruits, raw A2 dairy, and heritage grains.
